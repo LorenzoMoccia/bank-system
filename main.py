@@ -48,7 +48,7 @@ class Conto:
 
 
 
-#Definisco la classe Admin
+#Definisco la classe Admininistrator
 class Admin:
     def __init__(self, username, password):
         self.username = username
