@@ -48,7 +48,7 @@ class Conto:
 
 
 
-#Definisco la classe Adminin
+#Definisco la classe Admin
 class Admin:
     def __init__(self, username, password):
         self.username = username
@@ -67,6 +67,21 @@ class Admin:
             print("Conto creato con succcesso!")
         else:
             print("C'è stato un errore nella creazione del conto.")
+
+    #Elimina conto
+    def delete_conto(self):
+        id_to_delete = int(input("Inserisci l'ID da eliminare: "))
+        len_conti = len(conti) - 1
+        #Controllo che l'ID non sia 0 o che sia esistente
+        if id_to_delete == 0:
+            print("ID non esistente!")
+        elif id_to_delete > len_conti:
+            print("ID non esistente")
+        else:
+            conti.pop(id_to_delete)
+
+
+
 
     #Visualizza lista conti
     def view_conti(self):
@@ -138,6 +153,8 @@ while (continua):
         mio_admin.add_conto()
     elif operazione == '1':
         mio_conto.deposito()
+    elif operazione == '2' and mio_admin.auth == True:
+        mio_admin.delete_conto()
     elif operazione == '2':
         mio_conto.prelievo()
     elif operazione == '3' and mio_admin.auth == True:
