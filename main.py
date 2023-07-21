@@ -1,12 +1,16 @@
+from getpass import getpass
+
+
 # Definisco la classe 'Conto'
 class Conto:
 
     # Costruttore
-    def __init__(self, saldo, proprietario):
+    def __init__(self, saldo, proprietario, id):
         self.saldo = saldo
         self.proprietario = proprietario
         self.transaction_counter = 0
         self.transactions = []
+        self.id = id
 
     # Metodo deposito
     def deposito(self):
@@ -50,8 +54,30 @@ class Admin:
         self.username = username
         self.password = password
         self.auth = False
-        
-        #Methods
+        self.counter = 0
+
+    #Crea conto
+    def add_conto(self):
+        if mio_admin.auth == True:
+            saldo = input("Inserisci il saldo iniziale del conto: ")
+            proprietario = input("Inserisci il nome e cognome del proprietario: ")
+            self.counter = self.counter + 1
+            conto = Conto(saldo, proprietario, self.counter)
+            conti.append(conto)
+            print("Conto creato con succcesso!")
+        else:
+            print("C'è stato un errore nella creazione del conto.")
+
+    #Visualizza lista conti
+    def view_conti(self):
+        for conto in conti:
+            print("_"*50)
+            print(f"Conto #{conto.id}")
+            print(f"Proprietario: {conto.proprietario}")
+            print(f"Saldo: {conto.saldo}")
+            print("_"*50)
+            
+            
 
 
 
@@ -60,27 +86,29 @@ class Admin:
 
 
 
+# MAIN PROGRAM
 
-# MAIN PROGRAM 
+#ISTANZE
+mio_admin = Admin("admin", "test")
+mio_conto = Conto(0, "Lorenzo Moccia", 0)
+
+
+#Array di oggetti Conto
+conti = []
+
 
 
 #METHODS
 def admin_login():
-    username = input("Inserisci username dell'admin:\n ")
-    password = input("Inserisci password:\n")
+    username = input("Inserisci username dell'admin:\n")
+    password = getpass("Inserisci password:\n")
 
     #Controllo username e password che corrispondano
     if (username == "admin" and mio_admin.username == "admin") and (password == mio_admin.password and mio_admin.password == "test"):
-        print(f"Bentornato {mio_admin.username}!")
+        print(f"Bentornato {mio_admin.username}, ora puoi usare le funzionalità di admin.!")
+        mio_admin.auth = True
     else:
         print("Username o password errati!")
-
-
-
-
-#ISTANZE
-mio_conto = Conto(50, "Lorenzo Moccia")
-mio_admin = Admin("admin", "test")
 
 
 # Imposto una variabile a True per fare un loop infinito del programma.
@@ -89,18 +117,31 @@ continua = True
 
 #MENU
 print("Benvenuto nel Bank-Account software!")
-print("\n")
-print("[1] Deposito.\n[2] Prelievo.\n[3] Informazioni.\n[4] Saldo.\n[5] Visualizza storico transazioni.\n[6] Admin Control Panel ")
+print("[1] Deposito.\n[2] Prelievo.\n[3] Informazioni.\n[4] Saldo.\n[5] Visualizza storico transazioni.\n[6] Admin Control Panel\n")
 
 while (continua):
+
+    #Se si è loggati come Admin
+    if mio_admin.auth == True:
+        print("________________________________________________________________")
+        print("[ADMIN CONTROL PANEL]")
+        print("[1] Crea conto. [2] Elimina conto. [3] Visualizza tutti i conti.")
+        print("________________________________________________________________")
+    
+
+
 
     #Chiedo in input all'utente l'operazione
     operazione = input("Seleziona un operazione da fare: ")
     
-    if operazione == '1':
+    if operazione == '1' and mio_admin.auth == True:
+        mio_admin.add_conto()
+    elif operazione == '1':
         mio_conto.deposito()
     elif operazione == '2':
         mio_conto.prelievo()
+    elif operazione == '3' and mio_admin.auth == True:
+        mio_admin.view_conti()
     elif operazione == '3':
         print(mio_conto.informazioni())
     elif operazione == '4':
@@ -114,7 +155,3 @@ while (continua):
         continua = False
 
 
-
-#if
-#else
-#else if
