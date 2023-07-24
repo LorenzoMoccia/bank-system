@@ -71,7 +71,10 @@ class Admin:
     #Elimina conto
     def delete_conto(self):
         id_to_delete = int(input("Inserisci l'ID da eliminare: "))
-        len_conti = len(conti) - 1
+        id_to_delete = id_to_delete - 1
+        len_conti = len(conti)
+        
+        
         #Controllo che l'ID non sia 0 o che sia esistente
         if id_to_delete == 0:
             print("ID non esistente!")
@@ -79,6 +82,7 @@ class Admin:
             print("ID non esistente")
         else:
             conti.pop(id_to_delete)
+            conti[id_to_delete].id -= 1
 
 
 
